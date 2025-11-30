@@ -9,7 +9,6 @@ import Skills from '@/components/ui/Skills';
 import Projects from '@/components/ui/Projects';
 import Contact from '@/components/ui/Contact';
 import Typewriter from 'typewriter-effect';
-// Import du contrôleur intelligent (qui remplace OrbitControls standard)
 import SmartOrbitControls from '@/components/canvas/SmartOrbitControls'; 
 import Mobile3DUI from '@/components/ui/Mobile3DUI';
 import { Download, Home as HomeIcon, User, Code, Mail, Globe } from 'lucide-react'; 
@@ -21,10 +20,14 @@ export default function Home() {
   return (
     <main className="w-full bg-brand-bg relative overflow-x-hidden">
       
-      {/* MENU MOBILE FLOTTANT */}
+      {/* 1. UI DE NAVIGATION MOBILE (FLÈCHES INTELLIGENTES) */}
+      {/* Il est placé ici pour flotter par-dessus tout le site */}
+      <Mobile3DUI /> 
+
+      {/* 2. MENU MOBILE FLOTTANT (ICÔNES EN BAS) */}
       <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
         <div className="bg-black/80 backdrop-blur-md border border-brand-primary/30 rounded-full px-4 py-3 flex items-center gap-4 shadow-[0_0_30px_rgba(0,229,153,0.3)]">
-          <a href="#" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
+          <a href="#hero" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
             <HomeIcon size={20} className="text-white" />
           </a>
           <a href="#about" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
@@ -43,14 +46,10 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* === SECTION HERO === */}
+      {/* === SECTION HERO (ID="hero" important pour la détection) === */}
       <section id="hero" className="min-h-screen w-full relative">
         
-        {/* INTERFACE MOBILE (Flèches + Tooltip) */}
-        <Mobile3DUI nextSectionId="about" /> 
-
         {/* CONTENU TEXTE */}
-        {/* Sur mobile : position relative pour s'empiler. Sur Desktop : absolute pour se superposer à la 3D */}
         <div className="relative z-10 pointer-events-none p-4 md:p-12 flex flex-col justify-between md:absolute md:inset-0">
             
             {/* HEADER */}
@@ -60,12 +59,14 @@ export default function Home() {
                 </h1>
                 
                 <div className="flex items-center gap-6">
+                    {/* NAVIGATION DESKTOP */}
                     <nav className="hidden md:flex space-x-8 text-sm font-medium text-white/80">
                         <a href="#projets" className="hover:text-brand-primary transition">{t.nav.projects}</a>
                         <a href="#about" className="hover:text-brand-primary transition">{t.nav.about}</a>
                         <a href="#contact" className="hover:text-brand-primary transition">{t.nav.contact}</a>
                     </nav>
 
+                    {/* SWITCH LANGUE DESKTOP */}
                     <button 
                         onClick={toggleLang}
                         className="hidden md:flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-bold text-white hover:bg-brand-primary hover:text-black transition cursor-pointer"
@@ -76,7 +77,7 @@ export default function Home() {
                 </div>
             </header>
 
-            {/* CONTENU PRINCIPAL */}
+            {/* PRINCIPAL */}
             <div className="w-full max-w-2xl pointer-events-auto z-20 relative text-center md:text-left mx-auto md:mx-0 px-2 mb-4 md:mb-0">
                 
                 <p className="text-brand-primary font-mono text-xs md:text-base mb-2 tracking-widest">
@@ -130,8 +131,7 @@ export default function Home() {
         {/* CANVAS 3D */}
         <div 
             className="w-full h-[400px] md:h-screen md:absolute md:inset-0 md:z-0"
-            // IMPORTANT : Permet le scroll vertical même si on touche le canvas
-            style={{ touchAction: 'pan-y' }} 
+            style={{ touchAction: 'pan-y' }} // CRUCIAL pour le scroll mobile
         >
           <Canvas shadows camera={{ position: [0, 0, 9], fov: 40 }}>
             <Suspense fallback={null}>
@@ -142,7 +142,6 @@ export default function Home() {
               
               <Hero3D />
               
-              {/* IMPORTANT : Utilisation du contrôleur intelligent au lieu de OrbitControls */}
               <SmartOrbitControls /> 
               
             </Suspense>
@@ -151,7 +150,7 @@ export default function Home() {
 
       </section>
 
-      {/* Ajout des IDs pour le scroll smooth */}
+      {/* ID SECTIONS pour la navigation automatique */}
       <div id="about">
         <About />
       </div>

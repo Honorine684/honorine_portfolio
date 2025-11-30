@@ -45,14 +45,13 @@ const PROJECT_ASSETS = [
     tags: ["React Native", "API Trello"],
     link: "#",
     github: "https://github.com/Honorine684",
-    color: "from-indigo-500 to-blue-500",
     image: "/projects/tech.jpeg",
   },
 ];
 
 function ProjectCard({ project, index }) {
   return (
-    <motion.div
+    <motion.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

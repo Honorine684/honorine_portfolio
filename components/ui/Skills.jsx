@@ -20,7 +20,7 @@ export default function Skills() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 w-full bg-transparent relative overflow-hidden">
+    <section id="skills" className="py-24 w-full bg-transparent relative overflow-hidden">
       
       {/* Titre Traduit */}
       <div className="text-center mb-8 relative z-10 px-4">
