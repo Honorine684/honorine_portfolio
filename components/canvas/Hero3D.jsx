@@ -165,7 +165,7 @@ function AvatarPro() {
             options={{
               strings: [
                 'Hello ! 👋',
-                'Développeuse Fullstack',
+                'Honorine à votre service ',
                 'Vous avez une idée',
                 'Moi j’ai le clavier 😄'
               ],
