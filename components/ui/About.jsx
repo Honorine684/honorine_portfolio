@@ -1,28 +1,17 @@
 'use client';
 import { motion } from "framer-motion";
-
-const timelineData = [
-  {
-    year: "Juil 2025 - Présent",
-    title: "Epitech Bénin (Coding Academy)",
-    description: "Formation intensive et d’excellence en développement web et mobile.",
-    color: "bg-brand-primary" // Bleu vif
-  },
-  {
-    year: "Déc 2024 - Mai 2025",
-    title: "Développement Mobile (OIF & AFRIKEDUTECH)",
-    description: "Spécialisation sur l'écosystème Flutter.",
-    color: "bg-brand-secondary" // Bleu clair
-  },
-  {
-    year: "2021 - 2024",
-    title: "Licence Système Informatique",
-    description: "Acquisition des fondamentaux : Algorithmique,Bases de données,Développement web.",
-    color: "bg-blue-300" // Bleu très pâle
-  }
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function About() {
+  const { t } = useLanguage();
+
+  // On définit les couleurs ici pour les appliquer dans l'ordre de la timeline
+  const dotColors = [
+    "bg-brand-primary",   // Pour le 1er élément (Epitech)
+    "bg-brand-secondary", // Pour le 2ème (Dev Mobile)
+    "bg-blue-400"         // Pour le 3ème (Licence)
+  ];
+
   return (
     <section id="about" className="py-24 w-full bg-transparent relative z-10">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
@@ -35,15 +24,16 @@ export default function About() {
           className="mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
-            MON <span className="text-brand-primary">PARCOURS</span>
+            {t.about.title} <span className="text-brand-primary">{t.about.title_highlight}</span>
           </h2>
           <div className="w-24 h-1 bg-brand-primary rounded-full"></div>
         </motion.div>
 
         {/* La Timeline */}
-        <div className="relative border-l-2 border-slate-200 ml-4 md:ml-6 space-y-12">
+        {/* J'ai mis border-white/20 pour que la ligne soit visible sur fond noir */}
+        <div className="relative border-l-2 border-white/20 ml-4 md:ml-6 space-y-12">
           
-          {timelineData.map((item, index) => (
+          {t.about.timeline.map((item, index) => (
             <motion.div 
               key={index}
               initial={{ opacity: 0, x: -20 }}
@@ -51,20 +41,21 @@ export default function About() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="relative pl-8 md:pl-12"
             >
-              {/* Le Point sur la ligne */}
-              <span className={`absolute -left-[9px] top-2 w-4 h-4 rounded-full border-4 border-white shadow-sm ${item.color}`}></span>
+              {/* Le Point sur la ligne (Couleur dynamique selon l'index) */}
+              <span className={`absolute -left-[9px] top-2 w-4 h-4 rounded-full border-4 border-black shadow-sm ${dotColors[index] || "bg-white"}`}></span>
               
               {/* Le Contenu */}
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
                 <span className="font-mono text-sm text-brand-primary font-bold uppercase tracking-wider">
                   {item.year}
                 </span>
-                <h3 className="text-xl font-bold text-brand-text">
+                {/* Texte blanc pour le mode sombre */}
+                <h3 className="text-xl font-bold text-white">
                   {item.title}
                 </h3>
               </div>
               <p className="mt-2 text-slate-400 max-w-2xl leading-relaxed">
-                {item.description}
+                {item.desc}
               </p>
             </motion.div>
           ))}
@@ -77,8 +68,8 @@ export default function About() {
            whileInView={{ scale: 1 }}
            className="mt-12 ml-4 md:ml-6 pl-8"
         >
-            <div className="inline-block px-4 py-2 bg-slate-100 rounded-lg text-sm text-slate-500 font-mono">
-                Prête pour le prochain challenge
+            <div className="inline-block px-4 py-2 bg-white/10 border border-white/10 rounded-lg text-sm text-slate-300 font-mono backdrop-blur-sm">
+                {t.about.badge}
             </div>
         </motion.div>
 

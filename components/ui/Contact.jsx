@@ -2,9 +2,13 @@
 import { useState } from 'react';
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react";
+// 1. IMPORT DU HOOK DE LANGUE
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Contact() {
-  const [status, setStatus] = useState(''); // 'loading', 'success', 'error'
+  const [status, setStatus] = useState(''); 
+  // 2. RÉCUPÉRATION DES TEXTES ET DE LA LANGUE
+  const { t, lang } = useLanguage(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +26,8 @@ export default function Contact() {
 
       if (data.success) {
         setStatus('success');
-        e.target.reset(); // Vide le formulaire
-        setTimeout(() => setStatus(''), 5000); // Enlève le message après 5s
+        e.target.reset(); 
+        setTimeout(() => setStatus(''), 5000); 
       } else {
         setStatus('error');
         setTimeout(() => setStatus(''), 5000);
@@ -50,13 +54,13 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
+            {/* TITRE TRADUIT */}
             <h2 className="text-3xl md:text-5xl font-bold font-display text-brand-text mb-4 md:mb-6">
-              INITIALISER LA <br/>
-              <span className="text-brand-primary">CONNEXION</span>
+              {t.contact.title} <br/>
+              <span className="text-brand-primary">{t.contact.title_highlight}</span>
             </h2>
             <p className="text-white text-base md:text-lg mb-8 md:mb-10 max-w-md">
-              Vous avez un projet innovant ? Une idée à concrétiser ?
-              Discutons-en et tissons l&apos;avenir ensemble.
+              {t.contact.desc}
             </p>
 
             <div className="space-y-4 md:space-y-6">
@@ -67,7 +71,7 @@ export default function Contact() {
                   <Mail size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div className="overflow-hidden">
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Email</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.email}</p>
                   <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition truncate">honorine.gabiam@epitech.eu</p>
                 </div>
               </a>
@@ -78,7 +82,7 @@ export default function Contact() {
                   <Phone size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Téléphone</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.phone}</p>
                   <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition">+229 01 65 43 50 50</p>
                 </div>
               </a>
@@ -89,8 +93,8 @@ export default function Contact() {
                   <MapPin size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Localisation</p>
-                  <p className="text-sm md:text-base text-brand-text font-medium">Cotonou, Bénin</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.location}</p>
+                  <p className="text-sm md:text-base text-brand-text font-medium">{t.contact.infos.location_val}</p>
                 </div>
               </div>
 
@@ -117,54 +121,51 @@ export default function Contact() {
           >
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               
-              {/* 🔑 TA CLÉ WEB3FORMS ICI */}
               <input type="hidden" name="access_key" value="f5949c9b-c5b2-4c5e-bd07-2f669e02f32b" />
-              
-              {/* Redirection après succès (optionnel) */}
               <input type="hidden" name="redirect" value="false" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-white">Nom</label>
+                  <label className="text-sm font-bold text-white">{t.contact.form.name}</label>
                   <input 
                     type="text" 
                     name="nom"
                     required
                     className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
-                    placeholder="Votre nom" 
+                    placeholder={t.contact.form.placeholder_name}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-white">Prénom</label>
+                  <label className="text-sm font-bold text-white">{t.contact.form.firstname}</label>
                   <input 
                     type="text" 
                     name="prenom"
                     required
                     className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
-                    placeholder="Votre prénom" 
+                    placeholder={t.contact.form.placeholder_firstname}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-white">Email</label>
+                <label className="text-sm font-bold text-white">{t.contact.form.email}</label>
                 <input 
                   type="email" 
                   name="email"
                   required
                   className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
-                  placeholder="exemple@email.com" 
+                  placeholder={t.contact.form.placeholder_email}
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-white">Message</label>
+                <label className="text-sm font-bold text-white">{t.contact.form.message}</label>
                 <textarea 
                   rows="4"
                   name="message"
                   required
                   className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition resize-none text-sm md:text-base" 
-                  placeholder="Parlons de votre projet..."
+                  placeholder={t.contact.form.placeholder_message}
                 ></textarea>
               </div>
 
@@ -182,25 +183,25 @@ export default function Contact() {
                 {status === 'loading' && (
                   <>
                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                    Envoi en cours...
+                    {lang === 'fr' ? 'Envoi...' : 'Sending...'}
                   </>
                 )}
                 {status === 'success' && (
                   <>
                     <CheckCircle size={20} />
-                    Message envoyé !
+                    {lang === 'fr' ? 'Envoyé !' : 'Sent!'}
                   </>
                 )}
                 {status === 'error' && (
                   <>
                     <AlertCircle size={20} />
-                    Erreur, réessayez
+                    {lang === 'fr' ? 'Erreur' : 'Error'}
                   </>
                 )}
                 {!status && (
                   <>
                     <Send size={18} className="md:w-5 md:h-5" />
-                    ENVOYER LE MESSAGE
+                    {t.contact.form.btn}
                   </>
                 )}
               </button>
@@ -209,9 +210,9 @@ export default function Contact() {
 
         </div>
 
-        {/* FOOTER */}
+        {/* FOOTER TRADUIT */}
         <div className="mt-12 md:mt-24 pt-8 border-t border-slate-200 text-center text-slate-400 text-[10px] md:text-sm font-mono">
-          <p>© 2025 HONORINE GABIAM</p>
+          <p>{t.contact.footer}</p>
         </div>
 
       </div>

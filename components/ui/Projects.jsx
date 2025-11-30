@@ -1,66 +1,55 @@
 "use client";
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Code2, Layers, Smartphone, Layout } from "lucide-react";
+import { useLanguage } from '@/context/LanguageContext';
 
-// --- DATA ---
-const PROJECTS = [
+// L'ordre doit correspondre exactement à l'ordre dans translations.js
+const PROJECT_ASSETS = [
   {
-    title: "Pineapple Movies",
-    category: "Web App",
-    desc: "Cinémathèque interactive connectée à l'API TMDB. Recherche instantanée et UI fluide.",
+    icon: <Layout size={20} />,
     tags: ["Next.js", "Tailwind"],
     link: "https://pineapple2025.vercel.app/",
     github: "https://github.com/Honorine684",
     image: "/projects/pin.png", 
   },
   {
-    title: "Benin Jeux",
-    category: "Platform",
-    desc: "Plateforme éducative de QCM avec système de paiement et monétisation intégré.",
+    icon: <Layers size={20} />,
     tags: ["Symfony", "MySQL", "Javascript"],
     link: "https://beninjeux.bj",
     github: "https://github.com/Honorine684",
     image: "/projects/benin.png",
   },
   {
-    title: "YOWL",
-    category: "Social",
-    desc: "Espace de commentaires décentralisé. Une approche moderne de l'expression libre.",
+    icon: <Code2 size={20} />,
     tags: ["Laravel", "Vue.js", "API"],
     link: "https://yowlhewo.netlify.app/",
     github: "https://github.com/Honorine684",
     image: "/projects/yowl.png",
   },
   {
-    title: "Post-it App",
-    category: "Tool",
-    desc: "Gestionnaire de tâches minimaliste avec sauvegarde locale et Drag & Drop.",
+    icon: <Layout size={20} />,
     tags: ["Vue.js", "JS", "LocalStore"],
     link: "https://postit-app-zeta.vercel.app/",
     github: "https://github.com/Honorine684",
     image: "/projects/post.png",
   },
   {
-    title: "DJAYE",
-    category: "Mobile & AI",
-    desc: "Assistant personnel intelligent sur mobile. L'IA au service du quotidien.",
+    icon: <Smartphone size={20} />,
     tags: ["Flutter", "Dart", "Firebase"],
     link: "#",
     github: "https://github.com/Honorine684",
     image: "/projects/djaye.jpeg",
   },
   {
-    title: "TrellTech",
-    category: "Mobile",
-    desc: "Clone fonctionnel de Trello sur mobile avec gestion d'API et synchronisation.",
+    icon: <Smartphone size={20} />,
     tags: ["React Native", "API Trello"],
     link: "#",
     github: "https://github.com/Honorine684",
+    color: "from-indigo-500 to-blue-500",
     image: "/projects/tech.jpeg",
   },
 ];
 
-// --- COMPOSANT CARTE HOLO ---
 function ProjectCard({ project, index }) {
   return (
     <motion.div
@@ -68,34 +57,29 @@ function ProjectCard({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative h-full flex flex-col" // flex flex-col pour assurer la hauteur
+      className="group relative h-full flex flex-col"
     >
-      {/* 1. Le Conteneur "Verre" */}
       <div className="relative h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-brand-primary/50 hover:shadow-[0_0_30px_rgba(0,229,153,0.15)] flex flex-col">
         
-        {/* 2. Effet de "Scan" lumineux au survol */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine z-20 pointer-events-none" />
 
-        {/* 3. Header IMAGE (C'est ici que ça change) */}
-        {/* J'ai augmenté la hauteur à h-48 pour bien voir l'image */}
         <div className="h-40 w-full relative overflow-hidden group">
-            
-            {/* L'Image réelle */}
             <img 
                 src={project.image} 
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
+            {/* Icône au centre survol */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
+               <div className="bg-black/50 p-3 rounded-full text-white backdrop-blur-sm">
+                 {project.icon}
+               </div>
+            </div>
 
-            {/* Overlay coloré (filtre) pour garder l'harmonie sombre */}
-            {/* Disparait légèrement au survol pour révéler les vraies couleurs de l'image */}
             <div className={`absolute inset-0 bg-gradient-to-t ${project.color} opacity-60 group-hover:opacity-40 transition-opacity duration-500 mix-blend-multiply`} />
-            
-            {/* Bruit de texture (Noise) */}
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
         </div>
 
-        {/* 4. Contenu */}
         <div className="p-6 flex flex-col flex-grow relative z-10 border-t border-white/5">
           <div className="flex justify-between items-start mb-3">
             <div>
@@ -107,7 +91,6 @@ function ProjectCard({ project, index }) {
               </h3>
             </div>
 
-            {/* Liens (Github / Live) */}
             <div className="flex gap-3">
               {project.github !== "#" && (
                 <a
@@ -132,7 +115,6 @@ function ProjectCard({ project, index }) {
             {project.desc}
           </p>
 
-          {/* Tags Tech (En bas) */}
           <div className="mt-auto pt-4 border-t border-white/5 flex flex-wrap gap-2">
             {project.tags.map((tag, i) => (
               <span
@@ -149,34 +131,40 @@ function ProjectCard({ project, index }) {
   );
 }
 
-// --- SECTION PRINCIPALE ---
 export default function Projects() {
+  const { t } = useLanguage();
+
   return (
     <section id="projets" className="py-24 w-full bg-transparent relative z-10">
       <div className="max-w-6xl mx-auto px-6">
+        
         {/* Titre Section */}
         <div className="mb-16 md:flex md:justify-between md:items-end">
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-5xl font-bold font-display text-white">
-              PORTFOLIO <span className="text-brand-primary">SÉLECTIF</span>
+              {t.projects.title} <span className="text-brand-primary">{t.projects.title_highlight}</span>
             </h2>
             <div className="h-1 w-20 bg-brand-primary mt-4 mx-auto md:mx-0 rounded-full" />
           </div>
           <p className="hidden md:block text-slate-400 text-sm max-w-xs text-right font-mono">
-            // COLLECTION DE PROJETS
-            <br />
-            // 2024 - 2025 EDITION
+            {t.projects.subtitle}
           </p>
         </div>
 
-        {/* Grille Projets */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PROJECTS.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
-          ))}
+          {/* 
+             ICI LA MAGIE OPÈRE :
+             On mappe sur la liste traduite (t.projects.list)
+             Et on fusionne avec les assets statiques (PROJECT_ASSETS) basés sur l'index
+          */}
+          {t.projects.list.map((projectData, index) => {
+             // Fusion des données textuelles et visuelles
+             const fullProject = { ...projectData, ...PROJECT_ASSETS[index] };
+             
+             return <ProjectCard key={index} project={fullProject} index={index} />;
+          })}
         </div>
 
-        {/* Bouton GitHub Centré */}
         <div className="text-center mt-16">
           <a
             href="https://github.com/Honorine684"
@@ -187,7 +175,7 @@ export default function Projects() {
               size={20}
               className="group-hover:rotate-12 transition-transform"
             />
-            EXPLORER TOUT LE REPO
+            {t.projects.btn_github}
           </a>
         </div>
       </div>
