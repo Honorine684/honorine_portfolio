@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import Hero3D from '@/components/canvas/Hero3D';
@@ -9,19 +9,34 @@ import Skills from '@/components/ui/Skills';
 import Projects from '@/components/ui/Projects';
 import Contact from '@/components/ui/Contact';
 import Typewriter from 'typewriter-effect';
-import { Download } from 'lucide-react';
+import { Download, Home as HomeIcon, User, Code, Mail } from 'lucide-react'; // ← RENOMMÉ ICI
 
 export default function Home() {
   return (
     <main className="w-full bg-brand-bg relative overflow-x-hidden">
       
+      {/* MENU MOBILE FLOTTANT */}
+      <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+        <div className="bg-black/80 backdrop-blur-md border border-brand-primary/30 rounded-full px-4 py-3 flex items-center gap-4 shadow-[0_0_30px_rgba(0,229,153,0.3)]">
+          <a href="#" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
+            <HomeIcon size={20} className="text-white" /> {/* ← UTILISÉ ICI */}
+          </a>
+          <a href="#about" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
+            <User size={20} className="text-white" />
+          </a>
+          <a href="#projets" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
+            <Code size={20} className="text-white" />
+          </a>
+          <a href="#contact" className="p-2 hover:bg-brand-primary/20 rounded-full transition">
+            <Mail size={20} className="text-white" />
+          </a>
+        </div>
+      </nav>
+
       {/* === SECTION HERO === */}
       <section className="min-h-screen w-full relative">
         
-        {/* LAYOUT MOBILE : FLEX COLUMN (Texte puis 3D) */}
-        {/* LAYOUT DESKTOP : Absolute positioning (comme avant) */}
-        
-        {/* CONTENU TEXTE - En premier sur mobile */}
+        {/* CONTENU TEXTE */}
         <div className="relative z-10 pointer-events-none p-4 md:p-12 flex flex-col justify-between md:absolute md:inset-0">
             
             {/* HEADER */}
@@ -70,7 +85,7 @@ export default function Home() {
                    J'avance avec curiosité, discipline et énergie : créer, corriger, améliorer… c'est plus qu'un métier, c'est ma manière d'aider les gens et de laisser une trace utile.
                 </p>
                 
-                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start mb-20 md:mb-0">
                   <a href="#projets" className="px-6 md:px-8 py-2.5 md:py-3 bg-brand-primary text-black font-bold rounded-lg shadow-[0_0_20px_rgba(0,229,153,0.4)] hover:scale-105 transition transform text-center text-sm md:text-base">
                       VOIR MES TRAVAUX
                   </a>
@@ -87,13 +102,13 @@ export default function Home() {
             </div>
 
             {/* FOOTER HERO */}
-            <div className="text-slate-500 text-[10px] md:text-xs font-mono flex items-center justify-center md:justify-start gap-2 mb-4 md:mb-0">
+            <div className="text-slate-500 text-[10px] md:text-xs font-mono flex items-center justify-center md:justify-start gap-2 mb-20 md:mb-0">
                 <span className="w-2 h-2 bg-brand-primary rounded-full animate-pulse shadow-[0_0_10px_#00E599]"></span>
                 DISPONIBLE POUR FREELANCE
             </div>
         </div>
 
-        {/* CANVAS 3D - En dessous sur mobile, absolute sur desktop */}
+        {/* CANVAS 3D */}
         <div className="w-full h-[400px] md:h-screen md:absolute md:inset-0 md:z-0">
           <Canvas shadows camera={{ position: [0, 0, 9], fov: 40 }}>
             <Suspense fallback={null}>
