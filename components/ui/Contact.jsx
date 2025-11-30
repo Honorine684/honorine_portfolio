@@ -118,7 +118,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               
               {/* 🔑 TA CLÉ WEB3FORMS ICI */}
-              <input type="hidden" name="access_key" value="METS_TA_CLÉ_ICI" />
+              <input type="hidden" name="access_key" value="f5949c9b-c5b2-4c5e-bd07-2f669e02f32b" />
               
               {/* Redirection après succès (optionnel) */}
               <input type="hidden" name="redirect" value="false" />

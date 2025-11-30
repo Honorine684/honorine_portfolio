@@ -67,7 +67,7 @@ export default function Home() {
                 </div>
                 
                 <p className="text-slate-400 text-xs sm:text-sm md:text-base mt-4 md:mt-6 mb-6 md:mb-8 max-w-lg font-sans mx-auto md:mx-0 leading-relaxed">
-                   J'avance avec curiosité, discipline et énergie : créer, corriger, améliorer… c'est plus qu'un métier, c'est ma manière d'aider les gens et de laisser une trace utile..
+                   J'avance avec curiosité, discipline et énergie : créer, corriger, améliorer… c'est plus qu'un métier, c'est ma manière d'aider les gens et de laisser une trace utile.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
