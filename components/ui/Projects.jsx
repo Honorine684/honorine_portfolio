@@ -1,172 +1,195 @@
-'use client';
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+"use client";
+import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 
-// --- DONNÉES DES PROJETS ---
+// --- DATA ---
 const PROJECTS = [
   {
-    title: "Pineapple",
-    desc: "Site d'appréciation de films connecté à l'API TMDB. Interface fluide et recherche instantanée.",
-    tags: ["Next.js", "React", "TMDB API", "Tailwind"],
-    image: "https://placehold.co/600x400/0EA5E9/ffffff?text=Pineapple+Movies", // Placeholder Bleu
+    title: "Pineapple Movies",
+    category: "Web App",
+    desc: "Cinémathèque interactive connectée à l'API TMDB. Recherche instantanée et UI fluide.",
+    tags: ["Next.js", "Tailwind"],
     link: "https://pineapple2025.vercel.app/",
-    github: "https://github.com/Honorine684" // J'ai mis ton profil par défaut si pas de lien spécifique
+    github: "https://github.com/Honorine684",
+    image: "/projects/pin.png", 
   },
   {
     title: "Benin Jeux",
-    desc: "Plateforme de QCM avec système de monétisation. Une solution complète pour l'éducation ludique.",
-    tags: ["Symfony", "PHP", "MySQL", "Stripe"],
-    image: "https://placehold.co/600x400/10B981/ffffff?text=Benin+Jeux", // Placeholder Vert
-    link: "https://beninjeux.bj/comming",
-    github: "#"
+    category: "Platform",
+    desc: "Plateforme éducative de QCM avec système de paiement et monétisation intégré.",
+    tags: ["Symfony", "MySQL", "Javascript"],
+    link: "https://beninjeux.bj",
+    github: "https://github.com/Honorine684",
+    image: "/projects/benin.png",
   },
   {
     title: "YOWL",
-    desc: "Plateforme de commentaires décentralisés. Un espace d'expression libre et moderne.",
-    tags: ["Laravel", "Vue.js", "API REST"],
-    image: "https://placehold.co/600x400/E8112D/ffffff?text=YOWL", // Placeholder Rouge
+    category: "Social",
+    desc: "Espace de commentaires décentralisé. Une approche moderne de l'expression libre.",
+    tags: ["Laravel", "Vue.js", "API"],
     link: "https://yowlhewo.netlify.app/",
-    github: "#"
+    github: "https://github.com/Honorine684",
+    image: "/projects/yowl.png",
   },
   {
     title: "Post-it App",
-    desc: "Application de gestion de tâches intuitive. Drag & drop et sauvegarde locale.",
-    tags: ["Vue.js", "JavaScript", "Local Storage"],
-    image: "https://placehold.co/600x400/F59E0B/ffffff?text=Post-it+App", // Placeholder Jaune
+    category: "Tool",
+    desc: "Gestionnaire de tâches minimaliste avec sauvegarde locale et Drag & Drop.",
+    tags: ["Vue.js", "JS", "LocalStore"],
     link: "https://postit-app-zeta.vercel.app/",
-    github: "#"
+    github: "https://github.com/Honorine684",
+    image: "/projects/post.png",
   },
   {
     title: "DJAYE",
-    desc: "Application mobile IA innovante pour l'assistance personnelle.",
-    tags: ["Flutter", "Dart", "Firebase", "AI"],
-    image: "https://placehold.co/600x400/8B5CF6/ffffff?text=DJAYE+Mobile", // Placeholder Violet
+    category: "Mobile & AI",
+    desc: "Assistant personnel intelligent sur mobile. L'IA au service du quotidien.",
+    tags: ["Flutter", "Dart", "Firebase"],
     link: "#",
-    github: "#"
-  }
+    github: "https://github.com/Honorine684",
+    image: "/projects/djaye.jpeg",
+  },
+  {
+    title: "TrellTech",
+    category: "Mobile",
+    desc: "Clone fonctionnel de Trello sur mobile avec gestion d'API et synchronisation.",
+    tags: ["React Native", "API Trello"],
+    link: "#",
+    github: "https://github.com/Honorine684",
+    image: "/projects/tech.jpeg",
+  },
 ];
 
-// --- COMPOSANT CARTE 3D (TILT) ---
+// --- COMPOSANT CARTE HOLO ---
 function ProjectCard({ project, index }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  // Effet ressort pour la douceur
-  const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
-  const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
-
-  function handleMouseMove({ currentTarget, clientX, clientY }) {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const xPct = (clientX - left) / width - 0.5;
-    const yPct = (clientY - top) / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  }
-
-  function handleMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  // Transformation en rotation 3D
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="perspective-1000"
+      className="group relative h-full flex flex-col" // flex flex-col pour assurer la hauteur
     >
-      <motion.div
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="group relative h-full bg-white rounded-2xl shadow-xl hover:shadow-2xl border border-slate-100 overflow-hidden transition-shadow duration-300"
-      >
-        {/* Image */}
-        <div className="h-48 overflow-hidden bg-slate-100 relative">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-brand-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+      {/* 1. Le Conteneur "Verre" */}
+      <div className="relative h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-brand-primary/50 hover:shadow-[0_0_30px_rgba(0,229,153,0.15)] flex flex-col">
+        
+        {/* 2. Effet de "Scan" lumineux au survol */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine z-20 pointer-events-none" />
+
+        {/* 3. Header IMAGE (C'est ici que ça change) */}
+        {/* J'ai augmenté la hauteur à h-48 pour bien voir l'image */}
+        <div className="h-40 w-full relative overflow-hidden group">
+            
+            {/* L'Image réelle */}
+            <img 
+                src={project.image} 
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+
+            {/* Overlay coloré (filtre) pour garder l'harmonie sombre */}
+            {/* Disparait légèrement au survol pour révéler les vraies couleurs de l'image */}
+            <div className={`absolute inset-0 bg-gradient-to-t ${project.color} opacity-60 group-hover:opacity-40 transition-opacity duration-500 mix-blend-multiply`} />
+            
+            {/* Bruit de texture (Noise) */}
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
         </div>
 
-        {/* Contenu */}
-        <div className="p-6 relative z-10 bg-white" style={{ transform: "translateZ(20px)" }}>
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-xl font-bold font-display text-brand-text group-hover:text-brand-primary transition-colors">
-              {project.title}
-            </h3>
-            <div className="flex gap-2">
-                {project.github !== "#" && (
-                    <a href={project.github} target="_blank" className="text-slate-400 hover:text-brand-text transition">
-                        <Github size={20} />
-                    </a>
-                )}
-                <a href={project.link} target="_blank" className="text-slate-400 hover:text-brand-primary transition">
-                    <ExternalLink size={20} />
+        {/* 4. Contenu */}
+        <div className="p-6 flex flex-col flex-grow relative z-10 border-t border-white/5">
+          <div className="flex justify-between items-start mb-3">
+            <div>
+              <span className="text-[10px] uppercase tracking-widest text-brand-primary font-bold mb-1 block">
+                {project.category}
+              </span>
+              <h3 className="text-xl font-bold font-display text-white group-hover:text-brand-primary transition-colors">
+                {project.title}
+              </h3>
+            </div>
+
+            {/* Liens (Github / Live) */}
+            <div className="flex gap-3">
+              {project.github !== "#" && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  className="text-slate-400 hover:text-white transition hover:scale-110 bg-white/5 p-2 rounded-full"
+                >
+                  <Github size={18} />
                 </a>
+              )}
+              <a
+                href={project.link}
+                target="_blank"
+                className="text-slate-400 hover:text-brand-primary transition hover:scale-110 bg-white/5 p-2 rounded-full"
+              >
+                <ExternalLink size={18} />
+              </a>
             </div>
           </div>
-          
-          <p className="text-slate-500 text-sm mb-6 line-clamp-3">
+
+          <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
             {project.desc}
           </p>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-auto">
+          {/* Tags Tech (En bas) */}
+          <div className="mt-auto pt-4 border-t border-white/5 flex flex-wrap gap-2">
             {project.tags.map((tag, i) => (
-              <span key={i} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs font-bold rounded-full border border-slate-200">
+              <span
+                key={i}
+                className="px-2 py-1 bg-white/5 border border-white/5 rounded text-[10px] text-slate-300 font-mono group-hover:border-brand-primary/30 transition-colors"
+              >
                 {tag}
               </span>
             ))}
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
 
-// --- COMPOSANT PRINCIPAL ---
+// --- SECTION PRINCIPALE ---
 export default function Projects() {
   return (
-    <section id="projets" className="py-32 w-full bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* En-tête */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold font-display text-brand-text">
-            PORTFOLIO <span className="text-brand-primary">INTERACTIF</span>
-          </h2>
-          <div className="w-20 h-1 bg-brand-primary mx-auto mt-4 rounded-full" />
-          <p className="text-slate-500 mt-6 max-w-2xl mx-auto">
-            Une sélection de mes travaux récents. Survolez les cartes pour l'effet 3D.
+    <section id="projets" className="py-24 w-full bg-transparent relative z-10">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Titre Section */}
+        <div className="mb-16 md:flex md:justify-between md:items-end">
+          <div className="text-center md:text-left">
+            <h2 className="text-3xl md:text-5xl font-bold font-display text-white">
+              PORTFOLIO <span className="text-brand-primary">SÉLECTIF</span>
+            </h2>
+            <div className="h-1 w-20 bg-brand-primary mt-4 mx-auto md:mx-0 rounded-full" />
+          </div>
+          <p className="hidden md:block text-slate-400 text-sm max-w-xs text-right font-mono">
+            // COLLECTION DE PROJETS
+            <br />
+            // 2024 - 2025 EDITION
           </p>
         </div>
 
-        {/* Grille */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Grille Projets */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((project, index) => (
             <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
 
-        {/* Bouton GitHub global */}
+        {/* Bouton GitHub Centré */}
         <div className="text-center mt-16">
-            <a 
-                href="https://github.com/Honorine684" 
-                target="_blank"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-brand-text text-white rounded-full font-bold hover:bg-brand-primary transition-colors shadow-lg"
-            >
-                <Github size={20} />
-                VOIR PLUS SUR GITHUB
-            </a>
+          <a
+            href="https://github.com/Honorine684"
+            target="_blank"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-white/5 border border-white/10 hover:bg-brand-primary hover:text-black hover:border-brand-primary text-white rounded-lg font-bold transition-all duration-300 group"
+          >
+            <Github
+              size={20}
+              className="group-hover:rotate-12 transition-transform"
+            />
+            EXPLORER TOUT LE REPO
+          </a>
         </div>
-
       </div>
     </section>
   );

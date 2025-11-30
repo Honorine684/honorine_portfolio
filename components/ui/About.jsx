@@ -4,27 +4,27 @@ import { motion } from "framer-motion";
 const timelineData = [
   {
     year: "Juil 2025 - Présent",
-    title: "Epitech Coding Academy",
-    description: "Formation intensive d'excellence en architecture logicielle et innovation.",
+    title: "Epitech Bénin (Coding Academy)",
+    description: "Formation intensive et d’excellence en développement web et mobile.",
     color: "bg-brand-primary" // Bleu vif
   },
   {
     year: "Déc 2024 - Mai 2025",
-    title: "Développement Mobile & Web",
-    description: "Spécialisation sur l'écosystème JavaScript (Next.js) et Flutter.",
+    title: "Développement Mobile (OIF & AFRIKEDUTECH)",
+    description: "Spécialisation sur l'écosystème Flutter.",
     color: "bg-brand-secondary" // Bleu clair
   },
   {
     year: "2021 - 2024",
     title: "Licence Système Informatique",
-    description: "Acquisition des fondamentaux : Algorithmique, Réseaux, Bases de données.",
+    description: "Acquisition des fondamentaux : Algorithmique,Bases de données,Développement web.",
     color: "bg-blue-300" // Bleu très pâle
   }
 ];
 
 export default function About() {
   return (
-    <section id="about" className="py-24 w-full bg-white relative z-10">
+    <section id="about" className="py-24 w-full bg-transparent relative z-10">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         
         {/* Titre de section */}
@@ -34,7 +34,7 @@ export default function About() {
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold font-display text-brand-text mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
             MON <span className="text-brand-primary">PARCOURS</span>
           </h2>
           <div className="w-24 h-1 bg-brand-primary rounded-full"></div>
@@ -63,7 +63,7 @@ export default function About() {
                   {item.title}
                 </h3>
               </div>
-              <p className="mt-2 text-slate-500 max-w-2xl leading-relaxed">
+              <p className="mt-2 text-slate-400 max-w-2xl leading-relaxed">
                 {item.description}
               </p>
             </motion.div>

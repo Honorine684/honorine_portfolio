@@ -1,77 +1,108 @@
 'use client';
+import { useState } from 'react';
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function Contact() {
-  return (
-    <section id="contact" className="py-24 w-full bg-white relative overflow-hidden">
-      
-      {/* Cercle décoratif en arrière-plan */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-3xl -z-10" />
+  const [status, setStatus] = useState(''); // 'loading', 'success', 'error'
 
-      <div className="max-w-6xl mx-auto px-6">
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    const formData = new FormData(e.target);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        e.target.reset(); // Vide le formulaire
+        setTimeout(() => setStatus(''), 5000); // Enlève le message après 5s
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus(''), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus(''), 5000);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-12 md:py-24 w-full bg-transparent relative overflow-hidden">
+      
+      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-brand-primary/5 rounded-full blur-3xl -z-10" />
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           
           {/* COLONNE GAUCHE : INFO */}
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
+            className="order-2 lg:order-1"
           >
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-brand-text mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold font-display text-brand-text mb-4 md:mb-6">
               INITIALISER LA <br/>
               <span className="text-brand-primary">CONNEXION</span>
             </h2>
-            <p className="text-slate-500 text-lg mb-10 max-w-md">
+            <p className="text-white text-base md:text-lg mb-8 md:mb-10 max-w-md">
               Vous avez un projet innovant ? Une idée à concrétiser ?
-              Discutons-en et tissons l'avenir ensemble.
+              Discutons-en et tissons l&apos;avenir ensemble.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-4 md:space-y-6">
               
               {/* Email */}
-              <a href="mailto:honorine.gabiam@epitech.eu" className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-brand-primary/10 rounded-xl transition group border border-slate-100">
-                <div className="p-3 bg-white rounded-full text-brand-primary shadow-sm group-hover:scale-110 transition">
-                  <Mail size={24} />
+              <a href="mailto:honorine.gabiam@epitech.eu" className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-white/5 border-white/10 hover:bg-brand-primary/10 rounded-xl transition group border border-slate-100">
+                <div className="p-2 md:p-3 bg-white rounded-full text-brand-primary shadow-sm group-hover:scale-110 transition shrink-0">
+                  <Mail size={20} className="md:w-6 md:h-6" />
                 </div>
-                <div>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Email</p>
-                  <p className="text-brand-text font-medium group-hover:text-brand-primary transition">honorine.gabiam@epitech.eu</p>
+                <div className="overflow-hidden">
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Email</p>
+                  <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition truncate">honorine.gabiam@epitech.eu</p>
                 </div>
               </a>
 
               {/* Téléphone */}
-              <a href="tel:+2290165435050" className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-brand-primary/10 rounded-xl transition group border border-slate-100">
-                <div className="p-3 bg-white rounded-full text-brand-primary shadow-sm group-hover:scale-110 transition">
-                  <Phone size={24} />
+              <a href="tel:+2290165435050" className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-white/5 border-white/10 hover:bg-brand-primary/10 rounded-xl transition group border border-slate-100">
+                <div className="p-2 md:p-3 bg-white rounded-full text-brand-primary shadow-sm group-hover:scale-110 transition shrink-0">
+                  <Phone size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Téléphone</p>
-                  <p className="text-brand-text font-medium group-hover:text-brand-primary transition">+229 01 65 43 50 50</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Téléphone</p>
+                  <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition">+229 01 65 43 50 50</p>
                 </div>
               </a>
 
               {/* Localisation */}
-              <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                <div className="p-3 bg-white rounded-full text-brand-text shadow-sm">
-                  <MapPin size={24} />
+              <div className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-white/5 border-white/10 rounded-xl border border-slate-100">
+                <div className="p-2 md:p-3 bg-white rounded-full text-brand-text shadow-sm shrink-0">
+                  <MapPin size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Localisation</p>
-                  <p className="text-brand-text font-medium">Cotonou, Bénin (Disponible Remote)</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Localisation</p>
+                  <p className="text-sm md:text-base text-brand-text font-medium">Cotonou, Bénin</p>
                 </div>
               </div>
 
             </div>
 
             {/* Réseaux Sociaux */}
-            <div className="flex gap-4 mt-10">
-              <a href="https://github.com/Honorine684" target="_blank" className="p-3 bg-brand-text text-white rounded-full hover:bg-brand-primary transition hover:-translate-y-1">
-                <Github size={24} />
+            <div className="flex gap-4 mt-8 md:mt-10">
+              <a href="https://github.com/Honorine684" target="_blank" rel="noopener noreferrer" className="p-3 bg-brand-text text-slate-400 rounded-full hover:bg-brand-primary transition hover:-translate-y-1">
+                <Github size={20} className="md:w-6 md:h-6" />
               </a>
-              <a href="https://linkedin.com/in/honorine-gabiam-a22679279" target="_blank" className="p-3 bg-[#0077B5] text-white rounded-full hover:bg-brand-primary transition hover:-translate-y-1">
-                <Linkedin size={24} />
+              <a href="https://linkedin.com/in/honorine-gabiam-a22679279" target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0077B5] text-slate-400 rounded-full hover:bg-brand-primary transition hover:-translate-y-1">
+                <Linkedin size={20} className="md:w-6 md:h-6" />
               </a>
             </div>
           </motion.div>
@@ -79,36 +110,99 @@ export default function Contact() {
 
           {/* COLONNE DROITE : FORMULAIRE */}
           <motion.div 
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-brand-bg p-8 md:p-10 rounded-3xl shadow-2xl relative border border-slate-200"
+            className="order-1 lg:order-2 bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-3xl shadow-xl relative"
           >
-            <form className="space-y-6" action="mailto:honorine.gabiam@epitech.eu" method="post" encType="text/plain">
-              <div className="grid grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              
+              {/* 🔑 TA CLÉ WEB3FORMS ICI */}
+              <input type="hidden" name="access_key" value="METS_TA_CLÉ_ICI" />
+              
+              {/* Redirection après succès (optionnel) */}
+              <input type="hidden" name="redirect" value="false" />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Nom</label>
-                  <input type="text" className="w-full p-3 rounded-lg bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition" placeholder="Votre nom" />
+                  <label className="text-sm font-bold text-white">Nom</label>
+                  <input 
+                    type="text" 
+                    name="nom"
+                    required
+                    className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
+                    placeholder="Votre nom" 
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Prénom</label>
-                  <input type="text" className="w-full p-3 rounded-lg bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition" placeholder="Votre prénom" />
+                  <label className="text-sm font-bold text-white">Prénom</label>
+                  <input 
+                    type="text" 
+                    name="prenom"
+                    required
+                    className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
+                    placeholder="Votre prénom" 
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Email</label>
-                <input type="email" className="w-full p-3 rounded-lg bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition" placeholder="exemple@email.com" />
+                <label className="text-sm font-bold text-white">Email</label>
+                <input 
+                  type="email" 
+                  name="email"
+                  required
+                  className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
+                  placeholder="exemple@email.com" 
+                />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700">Message</label>
-                <textarea rows="4" className="w-full p-3 rounded-lg bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition resize-none" placeholder="Parlons de votre projet..."></textarea>
+                <label className="text-sm font-bold text-white">Message</label>
+                <textarea 
+                  rows="4"
+                  name="message"
+                  required
+                  className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition resize-none text-sm md:text-base" 
+                  placeholder="Parlons de votre projet..."
+                ></textarea>
               </div>
 
-              <button type="submit" className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl shadow-lg hover:shadow-brand-primary/50 hover:scale-[1.02] transition flex items-center justify-center gap-2">
-                <Send size={20} />
-                ENVOYER LE MESSAGE
+              {/* BOUTON AVEC ÉTATS */}
+              <button 
+                type="submit" 
+                disabled={status === 'loading'}
+                className={`w-full py-3 md:py-4 font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm md:text-base
+                  ${status === 'loading' ? 'bg-slate-400 cursor-not-allowed' : 'bg-brand-primary hover:shadow-brand-primary/50 hover:scale-[1.02]'}
+                  ${status === 'success' ? 'bg-green-500' : ''}
+                  ${status === 'error' ? 'bg-red-500' : ''}
+                  text-black
+                `}
+              >
+                {status === 'loading' && (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                    Envoi en cours...
+                  </>
+                )}
+                {status === 'success' && (
+                  <>
+                    <CheckCircle size={20} />
+                    Message envoyé !
+                  </>
+                )}
+                {status === 'error' && (
+                  <>
+                    <AlertCircle size={20} />
+                    Erreur, réessayez
+                  </>
+                )}
+                {!status && (
+                  <>
+                    <Send size={18} className="md:w-5 md:h-5" />
+                    ENVOYER LE MESSAGE
+                  </>
+                )}
               </button>
             </form>
           </motion.div>
@@ -116,8 +210,8 @@ export default function Contact() {
         </div>
 
         {/* FOOTER */}
-        <div className="mt-24 pt-8 border-t border-slate-200 text-center text-slate-400 text-sm font-mono">
-          <p>© 2025 HONORINE GABIAM. DEVELOPED WITH NEXT.JS & THREE.JS.</p>
+        <div className="mt-12 md:mt-24 pt-8 border-t border-slate-200 text-center text-slate-400 text-[10px] md:text-sm font-mono">
+          <p>© 2025 HONORINE GABIAM</p>
         </div>
 
       </div>

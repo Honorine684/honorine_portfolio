@@ -1,19 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  /* --- TES COULEURS (Light Blue Theme) --- */
-  --color-brand-bg: #F8FAFC;        /* Slate 50 */
-  --color-brand-text: #1E293B;      /* Slate 800 */
-  --color-brand-primary: #0EA5E9;   /* Sky 500 */
-  --color-brand-secondary: #38BDF8; /* Sky 400 */
-  --color-brand-accent: #7DD3FC;    /* Sky 300 */
+  /* --- PALETTE : BENIN CYBER-PUNK --- */
+  
+  /* Fond : Noir très profond avec une légère teinte verte invisible */
+  --color-brand-bg: #050505;        
+  
+  /* Texte : Blanc cassé pour ne pas brûler les yeux */
+  --color-brand-text: #E2E8F0;      
 
-  /* --- TES POLICES --- */
+  /* PRIMARY : Vert Bénin Néon (Très vibrant) */
+  --color-brand-primary: #00E599;   
+  
+  /* SECONDARY : Jaune Cyber (Pour attirer l'attention) */
+  --color-brand-secondary: #FAFF00; 
+  
+  /* ACCENT : Rouge Laser (Pour les détails) */
+  --color-brand-accent: #FF0055;    
+
+  /* --- POLICES --- */
   --font-display: var(--font-orbitron), sans-serif;
   --font-sans: var(--font-inter), sans-serif;
 }
 
-/* --- REGLAGES GLOBAUX --- */
 :root {
   --background: var(--color-brand-bg);
   --foreground: var(--color-brand-text);
@@ -24,19 +33,63 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  /* Ajout d'une texture subtile pour éviter le noir plat */
+  background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 70%);
 }
 
-/* Scrollbar Stylisée */
+/* Scrollbar Néon */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-bg);
+  background: #000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #333;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-brand-primary);
+}
+
+/* --- BULLE DE DISCUSSION 3D --- */
+.speech-bubble {
+  position: relative;
+  background: rgba(20, 20, 20, 0.9);
+   border: 1px solid #00E599;
+  border-radius: .4em;
+  padding: 10px 20px;
+    color: #ffffff; /* Texte blanc */
+  backdrop-filter: blur(5px);
+  font-family: var(--font-sans);
+  font-weight: bold;
+  font-size: 14px;
+  color: #1E293B;
+  box-shadow: 0 4px 15px rgba(0, 229, 153, 0.4); /* Ombre verte néon */
+  min-width: 200px;
+  text-align: center;
+  border: 2px solid #00E599; /* Bordure verte */
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: #00E599;
+  border-bottom: 0;
+  margin-left: -10px;
+  margin-bottom: -10px;
+  border-top-color: #00E599; 
+}
+
+@keyframes shine {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+.animate-shine {
+  animation: shine 1.5s infinite;
 }
