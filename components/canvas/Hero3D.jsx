@@ -6,7 +6,6 @@ import { Float, Html, ContactShadows, Cylinder, Sphere, RoundedBox, Sparkles, Bo
 import * as THREE from 'three';
 import useMobile from '@/hooks/useMobile';
 import Typewriter from 'typewriter-effect';
-// 1. IMPORT DU HOOK
 import { useLanguage } from '@/context/LanguageContext';
 
 function AvatarPro() {
@@ -15,7 +14,6 @@ function AvatarPro() {
   const leftArm = useRef();
   const rightArm = useRef();
 
-  // 2. RÉCUPÉRATION DES TRADUCTIONS
   const { t, lang } = useLanguage();
 
   useFrame((state) => {
@@ -31,11 +29,9 @@ function AvatarPro() {
     <group ref={group}>
       
       <group position={[0, -0.5, 0]} rotation-x={0}>
-         {/* Le Sol */}
          <Cylinder args={[2.5, 2.5, 0.2, 64]}>
             <meshStandardMaterial color="#111827" metalness={0.5} roughness={0.5} />
          </Cylinder>
-         {/* Anneau Néon */}
          <mesh position={[0, 0.11, 0]} rotation-x={-Math.PI / 2}>
             <ringGeometry args={[2.4, 2.5, 64]} />
             <meshBasicMaterial color="#00E599" />
@@ -131,32 +127,21 @@ function AvatarPro() {
          </group>
       </group>
 
-      {/* === BULLE DE DISCUSSION DYNAMIQUE === */}
+      {/* === BULLE DE DISCUSSION RESPONSIVE === */}
       <Html position={[0, 2.5, 0]} center distanceFactor={8} zIndexRange={[100, 0]}>
-          <div className="speech-bubble" style={{
-            color: 'white',
-            background: 'rgba(0, 0, 0, 0.8)',
-            padding: '15px 25px',
-            borderRadius: '20px',
-            fontSize: '18px',
-            fontWeight: '500',
-            border: '2px solid #00E599',
-            boxShadow: '0 0 20px rgba(0, 229, 153, 0.3)',
-            whiteSpace: 'nowrap'
-          }}>
-          <Typewriter
-            // KEY EST IMPORTANT : Force le re-render quand on change de langue
-            key={lang} 
-            options={{
-              strings: t.hero.speech_bubble, // Utilise la liste traduite
-              autoStart: true,
-              loop: true,
-              delay: 40,
-              deleteSpeed: 20,
-              pauseFor: 2000,
-            }}
-          />
-        </div>
+          <div className="speech-bubble">
+            <Typewriter
+              key={lang} 
+              options={{
+                strings: t.hero.speech_bubble,
+                autoStart: true,
+                loop: true,
+                delay: 40,
+                deleteSpeed: 20,
+                pauseFor: 2000,
+              }}
+            />
+          </div>
       </Html>
 
     </group>
@@ -165,7 +150,6 @@ function AvatarPro() {
 
 export default function Hero3D() {
   const isMobile = useMobile();
-  // J'ai gardé les positions que tu avais, ajuste -4.5 si tu veux le remettre tout en bas sur mobile
   const position = isMobile ? [0, -1, 0] : [3, -1, 0];
   const scale = isMobile ? 0.8 : 1;
 

@@ -28,13 +28,27 @@
   --foreground: var(--color-brand-text);
 }
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   /* Ajout d'une texture subtile pour éviter le noir plat */
   background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 70%);
+}
+
+/* Force les polices */
+.font-display {
+  font-family: var(--font-orbitron), system-ui, sans-serif !important;
+}
+
+.font-sans {
+  font-family: var(--font-inter), system-ui, sans-serif !important;
 }
 
 /* Scrollbar Néon */
@@ -56,19 +70,17 @@ body {
 .speech-bubble {
   position: relative;
   background: rgba(20, 20, 20, 0.9);
-   border: 1px solid #00E599;
+  border: 2px solid #00E599;
   border-radius: .4em;
   padding: 10px 20px;
-    color: #ffffff; /* Texte blanc */
+  color: #ffffff; /* Texte blanc */
   backdrop-filter: blur(5px);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter), sans-serif;
   font-weight: bold;
   font-size: 14px;
-  color: #1E293B;
   box-shadow: 0 4px 15px rgba(0, 229, 153, 0.4); /* Ombre verte néon */
   min-width: 200px;
   text-align: center;
-  border: 2px solid #00E599; /* Bordure verte */
 }
 
 .speech-bubble:after {
@@ -83,13 +95,13 @@ body {
   border-bottom: 0;
   margin-left: -10px;
   margin-bottom: -10px;
-  border-top-color: #00E599; 
 }
 
 @keyframes shine {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }
 }
+
 .animate-shine {
   animation: shine 1.5s infinite;
 }
