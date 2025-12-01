@@ -18,6 +18,7 @@ export default function RootLayout({ children }) {
         {/* 2. ENVELOPPER TOUT LE SITE */}
         <LanguageProvider>
           {children}
+          <Analytics/>
         </LanguageProvider>
       </body>
     </html>
