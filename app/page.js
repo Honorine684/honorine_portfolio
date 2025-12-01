@@ -85,7 +85,7 @@ export default function Home() {
                 </p>
 
                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-3 md:mb-4 font-display leading-tight">
-                  HONORINE GABIAM
+                  Honorine GABIAM
                 </h2>
                 
                 <div className="text-xl sm:text-2xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary min-h-[60px] sm:min-h-[80px] md:min-h-[100px] flex items-center justify-center md:justify-start">
