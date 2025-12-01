@@ -99,62 +99,63 @@ function ProjectCard({ project, index, onOpenImage }) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           
-          {/* Overlay sombre : Visible un peu sur mobile pour la lisibilité, change au survol sur PC */}
-          <div className="absolute inset-0 bg-black/40 md:bg-black/60 md:group-hover:bg-black/40 transition-colors duration-300" />
+          {/* Overlay sombre */}
+          <div className="absolute inset-0 bg-black/40 md:bg-black/60 md:group-hover:bg-black/40 transition-colors duration-300 pointer-events-none" />
           
           {/* Badge Catégorie */}
-          <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[10px] font-bold text-brand-primary uppercase tracking-wider z-20">
+          <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[10px] font-bold text-brand-primary uppercase tracking-wider z-20 pointer-events-none">
             {project.icon}
             {project.category}
           </div>
 
-          {/* --- OVERLAY DES BOUTONS (C'est ici qu'on change la logique mobile) --- */}
-          {/* 
-              Sur Mobile (défaut) : opacity-100 (Toujours visible)
-              Sur PC (md:) : opacity-0 group-hover:opacity-100 (Visible seulement au survol)
-          */}
-          <div className="absolute inset-0 flex items-center justify-center gap-4 z-30 transition-opacity duration-300 backdrop-blur-[1px] md:backdrop-blur-0
-                          opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-hover:backdrop-blur-[2px]">
+          {/* OVERLAY DES BOUTONS - CORRIGÉ POUR MOBILE */}
+          <div className="absolute inset-0 flex items-center justify-center gap-3 z-30 transition-opacity duration-300
+                          opacity-100 md:opacity-0 md:group-hover:opacity-100">
              
-             {/* 1. Code */}
+             {/* Bouton Code */}
              {project.github !== "#" && (
                 <a 
                   href={project.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg"
+                  className="p-2.5 md:p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg active:scale-95"
                   title="Voir le code"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <Github size={20} />
+                  <Github size={18} className="md:w-5 md:h-5" />
                 </a>
              )}
 
-             {/* 2. Site Live */}
+             {/* Bouton Site Live - PRINCIPAL */}
              <a 
                 href={project.link} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-3 bg-white text-black rounded-full hover:bg-brand-primary hover:scale-110 transition-all shadow-lg"
+                className="p-2.5 md:p-3 bg-brand-primary text-black rounded-full hover:bg-white hover:scale-110 transition-all shadow-lg font-bold active:scale-95"
                 title="Visiter le site"
+                onClick={(e) => e.stopPropagation()}
               >
-                <ExternalLink size={20} />
+                <ExternalLink size={18} className="md:w-5 md:h-5" />
              </a>
 
-             {/* 3. Voir Image (Lightbox) */}
+             {/* Bouton Lightbox */}
              <button
-                onClick={() => onOpenImage(project.image)}
-                className="p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenImage(project.image);
+                }}
+                className="p-2.5 md:p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg active:scale-95"
                 title="Agrandir l'image"
              >
-                <Eye size={20} />
+                <Eye size={18} className="md:w-5 md:h-5" />
              </button>
 
           </div>
         </div>
 
         {/* CONTENU */}
-        <div className="p-4 flex flex-col flex-grow relative z-20 bg-[#0a0a0a]"> {/* Ajout background pour éviter transparence excessive sur mobile */}
-          <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">
+        <div className="p-4 flex flex-col flex-grow relative z-20 bg-[#0a0a0a]">
+          <h3 className="text-base md:text-lg font-bold text-white mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">
             {project.title}
           </h3>
           <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2">
@@ -184,7 +185,7 @@ export default function Projects() {
 
   return (
     <>
-      <section id="projets" className="py-20 w-full bg-transparent relative z-10">
+      <section id="projets" className="py-20 w-full bg-transparent relative z-10 min-h-screen">
         <div className="max-w-6xl mx-auto px-6">
           
           <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
