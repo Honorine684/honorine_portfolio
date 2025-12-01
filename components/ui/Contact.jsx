@@ -45,7 +45,7 @@ export default function Contact() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           
-          {/* COLONNE GAUCHE - HARMONISÉ */}
+          {/* COLONNE GAUCHE */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -68,7 +68,7 @@ export default function Contact() {
                   <Mail size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div className="overflow-hidden">
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.email_label}</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.email}</p>
                   <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition truncate">honorine.gabiam@epitech.eu</p>
                 </div>
               </a>
@@ -79,7 +79,7 @@ export default function Contact() {
                   <Phone size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.phone_label}</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.phone}</p>
                   <p className="text-sm md:text-base text-brand-text font-medium group-hover:text-brand-primary transition">+229 01 65 43 50 50</p>
                 </div>
               </a>
@@ -90,8 +90,8 @@ export default function Contact() {
                   <MapPin size={20} className="md:w-6 md:h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.location_label}</p>
-                  <p className="text-sm md:text-base text-brand-text font-medium">Cotonou, Bénin</p>
+                  <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">{t.contact.infos.location}</p>
+                  <p className="text-sm md:text-base text-brand-text font-medium">{t.contact.infos.location_val}</p>
                 </div>
               </div>
 
@@ -109,7 +109,7 @@ export default function Contact() {
           </motion.div>
 
 
-          {/* COLONNE DROITE : FORMULAIRE - HARMONISÉ */}
+          {/* COLONNE DROITE : FORMULAIRE */}
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -118,28 +118,28 @@ export default function Contact() {
           >
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               
-              <input type="hidden" name="access_key" value="METS_TA_CLÉ_ICI" />
+              <input type="hidden" name="access_key" value="f5949c9b-c5b2-4c5e-bd07-2f669e02f32b" />
               <input type="hidden" name="redirect" value="false" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs md:text-sm font-bold text-white">{t.contact.form.last_name}</label>
+                  <label className="text-xs md:text-sm font-bold text-white">{t.contact.form.name}</label>
                   <input 
                     type="text" 
                     name="nom"
                     required
                     className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
-                    placeholder={t.contact.form.placeholder_last_name}
+                    placeholder={t.contact.form.placeholder_name}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs md:text-sm font-bold text-white">{t.contact.form.first_name}</label>
+                  <label className="text-xs md:text-sm font-bold text-white">{t.contact.form.firstname}</label>
                   <input 
                     type="text" 
                     name="prenom"
                     required
                     className="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition text-sm md:text-base" 
-                    placeholder={t.contact.form.placeholder_first_name}
+                    placeholder={t.contact.form.placeholder_firstname}
                   />
                 </div>
               </div>
@@ -180,25 +180,25 @@ export default function Contact() {
                 {status === 'loading' && (
                   <>
                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                    {t.contact.form.sending || 'Envoi en cours...'}
+                    Envoi en cours...
                   </>
                 )}
                 {status === 'success' && (
                   <>
                     <CheckCircle size={20} />
-                    {t.contact.form.success || 'Message envoyé !'}
+                    Message envoyé !
                   </>
                 )}
                 {status === 'error' && (
                   <>
                     <AlertCircle size={20} />
-                    {t.contact.form.error || 'Erreur, réessayez'}
+                    Erreur, réessayez
                   </>
                 )}
                 {!status && (
                   <>
                     <Send size={18} className="md:w-5 md:h-5" />
-                    {t.contact.form.send}
+                    {t.contact.form.btn}
                   </>
                 )}
               </button>
@@ -207,9 +207,9 @@ export default function Contact() {
 
         </div>
 
-        {/* FOOTER - HARMONISÉ */}
+        {/* FOOTER */}
         <div className="mt-12 md:mt-24 pt-8 border-t border-slate-200 text-center text-slate-400 text-[10px] md:text-sm font-mono">
-          <p>© 2025 HONORINE GABIAM</p>
+          <p>{t.contact.footer}</p>
         </div>
 
       </div>

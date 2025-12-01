@@ -49,7 +49,7 @@ export const translations = {
       desc: "Vous avez un projet innovant ? Une idée à concrétiser ? Discutons-en et tissons l'avenir ensemble.",
       infos: { email: "Email", phone: "Téléphone", location: "Localisation", location_val: "Cotonou, Bénin" },
       form: { name: "Nom", firstname: "Prénom", email: "Email", message: "Message", placeholder_name: "Votre nom", placeholder_firstname: "Votre prénom", placeholder_email: "exemple@email.com", placeholder_message: "Parlons de votre projet...", btn: "ENVOYER LE MESSAGE" },
-      footer: "© 2025 HONORINE GABIAM. DÉVELOPPÉ AVEC NEXT.JS & THREE.JS."
+      footer: "© 2025 HONORINE GABIAM."
     }
   },
 
@@ -103,7 +103,7 @@ export const translations = {
       desc: "Got an innovative project? An idea to bring to life? Let's discuss and weave the future together.",
       infos: { email: "Email", phone: "Phone", location: "Location", location_val: "Cotonou, Benin" },
       form: { name: "Last Name", firstname: "First Name", email: "Email", message: "Message", placeholder_name: "Your last name", placeholder_firstname: "Your first name", placeholder_email: "example@email.com", placeholder_message: "Let's talk about your project...", btn: "SEND MESSAGE" },
-      footer: "© 2025 HONORINE GABIAM. DEVELOPED WITH NEXT.JS & THREE.JS."
+      footer: "© 2025 HONORINE GABIAM."
     }
   }
 };
