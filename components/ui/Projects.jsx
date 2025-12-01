@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Code2, Layers, Smartphone, Layout, Eye, X } from "lucide-react"; // Ajout de Eye et X
+import { ExternalLink, Github, Code2, Layers, Smartphone, Layout, Eye, X } from "lucide-react";
 import { useLanguage } from '@/context/LanguageContext';
 
 const PROJECT_ASSETS = [
@@ -57,25 +57,23 @@ function ImageModal({ image, onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 cursor-zoom-out"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
     >
-      {/* Bouton Fermer */}
       <button 
         onClick={onClose}
-        className="absolute top-6 right-6 p-2 bg-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors z-50"
+        className="absolute top-6 right-6 p-3 bg-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors z-50"
       >
         <X size={24} />
       </button>
 
-      {/* Image en grand */}
       <motion.img 
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         src={image} 
         alt="Full preview" 
-        className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl border border-white/10"
-        onClick={(e) => e.stopPropagation()} // Empêche la fermeture si on clique sur l'image
+        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl border border-white/10"
+        onClick={(e) => e.stopPropagation()} 
       />
     </motion.div>
   );
@@ -94,22 +92,29 @@ function ProjectCard({ project, index, onOpenImage }) {
       <div className="relative bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-brand-primary/50 transition-all duration-300 flex flex-col h-full hover:shadow-[0_0_20px_rgba(0,229,153,0.15)] hover:-translate-y-1">
         
         {/* IMAGE */}
-        <div className="relative h-40 w-full overflow-hidden">
+        <div className="relative h-44 w-full overflow-hidden">
           <img 
             src={project.image} 
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300" />
+          {/* Overlay sombre : Visible un peu sur mobile pour la lisibilité, change au survol sur PC */}
+          <div className="absolute inset-0 bg-black/40 md:bg-black/60 md:group-hover:bg-black/40 transition-colors duration-300" />
           
-          <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/70 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[10px] font-bold text-brand-primary uppercase tracking-wider">
+          {/* Badge Catégorie */}
+          <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[10px] font-bold text-brand-primary uppercase tracking-wider z-20">
             {project.icon}
             {project.category}
           </div>
 
-          {/* OVERLAY DES BOUTONS */}
-          <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
+          {/* --- OVERLAY DES BOUTONS (C'est ici qu'on change la logique mobile) --- */}
+          {/* 
+              Sur Mobile (défaut) : opacity-100 (Toujours visible)
+              Sur PC (md:) : opacity-0 group-hover:opacity-100 (Visible seulement au survol)
+          */}
+          <div className="absolute inset-0 flex items-center justify-center gap-4 z-30 transition-opacity duration-300 backdrop-blur-[1px] md:backdrop-blur-0
+                          opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-hover:backdrop-blur-[2px]">
              
              {/* 1. Code */}
              {project.github !== "#" && (
@@ -117,10 +122,10 @@ function ProjectCard({ project, index, onOpenImage }) {
                   href={project.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 bg-black text-white rounded-full hover:bg-brand-primary hover:text-black transition-colors border border-white/10"
+                  className="p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg"
                   title="Voir le code"
                 >
-                  <Github size={18} />
+                  <Github size={20} />
                 </a>
              )}
 
@@ -129,26 +134,26 @@ function ProjectCard({ project, index, onOpenImage }) {
                 href={project.link} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2 bg-white text-black rounded-full hover:bg-brand-primary hover:text-black transition-colors"
+                className="p-3 bg-white text-black rounded-full hover:bg-brand-primary hover:scale-110 transition-all shadow-lg"
                 title="Visiter le site"
               >
-                <ExternalLink size={18} />
+                <ExternalLink size={20} />
              </a>
 
-             {/* 3. NOUVEAU : Voir Image */}
+             {/* 3. Voir Image (Lightbox) */}
              <button
                 onClick={() => onOpenImage(project.image)}
-                className="p-2 bg-black text-white rounded-full hover:bg-brand-primary hover:text-black transition-colors border border-white/10"
+                className="p-3 bg-black/80 text-white rounded-full border border-white/20 hover:bg-brand-primary hover:text-black hover:scale-110 transition-all shadow-lg"
                 title="Agrandir l'image"
              >
-                <Eye size={18} />
+                <Eye size={20} />
              </button>
 
           </div>
         </div>
 
         {/* CONTENU */}
-        <div className="p-4 flex flex-col flex-grow">
+        <div className="p-4 flex flex-col flex-grow relative z-20 bg-[#0a0a0a]"> {/* Ajout background pour éviter transparence excessive sur mobile */}
           <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">
             {project.title}
           </h3>
@@ -175,7 +180,7 @@ function ProjectCard({ project, index, onOpenImage }) {
 // --- SECTION PRINCIPALE ---
 export default function Projects() {
   const { t } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState(null); // State pour gérer la modale
+  const [selectedImage, setSelectedImage] = useState(null);
 
   return (
     <>
@@ -202,7 +207,7 @@ export default function Projects() {
                     key={index} 
                     project={fullProject} 
                     index={index} 
-                    onOpenImage={setSelectedImage} // On passe la fonction d'ouverture
+                    onOpenImage={setSelectedImage} 
                 />
               );
             })}
@@ -222,7 +227,7 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Affichage conditionnel de la Modale */}
+      {/* Lightbox */}
       <AnimatePresence>
         {selectedImage && (
           <ImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />
