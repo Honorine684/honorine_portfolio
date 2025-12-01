@@ -1,5 +1,7 @@
 "use client";
 import { useState } from 'react';
+// 1. IMPORT DE NEXT/IMAGE
+import Image from 'next/image'; 
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, Code2, Layers, Smartphone, Layout, Eye, X } from "lucide-react";
 import { useLanguage } from '@/context/LanguageContext';
@@ -66,15 +68,16 @@ function ImageModal({ image, onClose }) {
         <X size={24} />
       </button>
 
-      <motion.img 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        src={image} 
-        alt="Full preview" 
-        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl border border-white/10"
-        onClick={(e) => e.stopPropagation()} 
-      />
+      <div className="relative w-full max-w-5xl h-[85vh]">
+        <Image 
+            src={image} 
+            alt="Full preview" 
+            fill
+            className="object-contain"
+            sizes="100vw"
+            onClick={(e) => e.stopPropagation()} 
+        />
+      </div>
     </motion.div>
   );
 }
@@ -93,10 +96,14 @@ function ProjectCard({ project, index, onOpenImage }) {
         
         {/* IMAGE */}
         <div className="relative h-44 w-full overflow-hidden">
-          <img 
+          
+          {/* 2. UTILISATION DE <Image /> AVEC FILL */}
+          <Image 
             src={project.image} 
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            fill // Remplit le conteneur parent (h-44)
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optimisation responsive
           />
           
           {/* Overlay sombre */}
@@ -108,7 +115,7 @@ function ProjectCard({ project, index, onOpenImage }) {
             {project.category}
           </div>
 
-          {/* OVERLAY DES BOUTONS - CORRIGÉ POUR MOBILE */}
+          {/* OVERLAY DES BOUTONS - MOBILE FRIENDLY */}
           <div className="absolute inset-0 flex items-center justify-center gap-3 z-30 transition-opacity duration-300
                           opacity-100 md:opacity-0 md:group-hover:opacity-100">
              

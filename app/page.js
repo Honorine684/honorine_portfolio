@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
+import dynamic from 'next/dynamic';
 import { Environment } from '@react-three/drei';
 import Hero3D from '@/components/canvas/Hero3D';
 import About from '@/components/ui/About';
@@ -13,8 +14,19 @@ import SmartOrbitControls from '@/components/canvas/SmartOrbitControls';
 import Mobile3DUI from '@/components/ui/Mobile3DUI';
 import { Download, Home as HomeIcon, User, Code, Mail, Globe } from 'lucide-react'; 
 import { useLanguage } from '@/context/LanguageContext';
+import { Html } from '@react-three/drei'
+import Logo from '@/components/ui/Logo';
 
+function CanvasLoader() {
+  return (
+    <Html center>
+      <div className="text-white font-mono text-xs animate-pulse">Loading 3D...</div>
+    </Html>
+  );
+}
 export default function Home() {
+  const Hero3D = dynamic(() => import('@/components/canvas/Hero3D'), { ssr: false });
+  const SmartOrbitControls = dynamic(() => import('@/components/canvas/SmartOrbitControls'), { ssr: false });
   const { lang, toggleLang, t } = useLanguage();
 
   return (
@@ -133,8 +145,11 @@ export default function Home() {
             className="w-full h-[400px] md:h-screen md:absolute md:inset-0 md:z-0"
             style={{ touchAction: 'pan-y' }} // CRUCIAL pour le scroll mobile
         >
-          <Canvas shadows camera={{ position: [0, 0, 9], fov: 40 }}>
-            <Suspense fallback={null}>
+          <Canvas shadows camera={{ position: [0, 0, 9], fov: 40 }}
+          dpr={[1, 2]} 
+          gl={{ antialias: false }}
+          >
+            <Suspense fallback={<CanvasLoader />}>
               <ambientLight intensity={0.8} />
               <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
               <pointLight position={[-10, -5, -10]} intensity={0.5} color="#00E599" />
