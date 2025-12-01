@@ -2,7 +2,7 @@ import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 // 1. IMPORTER LE PROVIDER
 import { LanguageProvider } from "@/context/LanguageContext";
-
+import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
 
